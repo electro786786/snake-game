@@ -55,6 +55,9 @@ public class GamePanel extends JPanel{
 			{
                            apple.x=(int)(Math.random()*getWidth());
 			   apple.y=(int)(Math.random()*getHeight());
+			   players.add(new Player(players.get(max-1).x,players.get(max-1).y,50,50));
+			   oldpos.add(new OldPosition(players.get(max).x,players.get(max).y));
+					   max++;
 			}
 			for(i=1;i<max;i++)
 			{
