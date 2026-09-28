@@ -51,7 +51,11 @@ public class GamePanel extends JPanel{
 					(players.get(0)).y+=50;    
                         }
 			Rectangle playRect=new Rectangle(players.get(0).x,players.get(0).y,players.get(0).w,players.get(0).h);
-			
+			if(playRect.intersects(appleRect))
+			{
+                           apple.x=(int)(Math.random()*getWidth());
+			   apple.y=(int)(Math.random()*getHeight());
+			}
 			for(i=1;i<max;i++)
 			{
 				(players.get(i)).x=oldpos.get(i-1).x;
