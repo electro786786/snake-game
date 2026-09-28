@@ -11,6 +11,7 @@ public class GamePanel extends JPanel{
 	ArrayList<OldPosition> oldpos;
 	Apple apple;
 	int max=3;
+	int flag=1;
 	int i=0;int score=0;
 	String prev;
 	GamePanel()
@@ -28,7 +29,8 @@ public class GamePanel extends JPanel{
 		addKeyListener(input);
 		setFocusable(true);
 		Timer timer=new Timer(256,e->{
-			
+			if(flag==0)
+				return;
 			for(int j=0;j<max;j++)
 			{
 			oldpos.get(j).x=players.get(j).x;
@@ -52,8 +54,8 @@ public class GamePanel extends JPanel{
                                  {
 					(players.get(0)).y+=50;    
                         }
-			Rectangle playRect=new Rectangle(players.get(0).x,players.get(0).y,players.get(0).w,players.get(0).h);
-			if(playRect.intersects(appleRect))
+			Rectangle headRect=new Rectangle(players.get(0).x,players.get(0).y,players.get(0).w,players.get(0).h);
+			if(headRect.intersects(appleRect))
 			{
                            apple.x=(int)(Math.random()*getWidth());
 			   apple.y=(int)(Math.random()*getHeight());
@@ -69,17 +71,23 @@ public class GamePanel extends JPanel{
                                 players.get(0).y=0;
 			if(players.get(0).y<0)
                                 players.get(0).y=getHeight()-50;
+			
 			for(i=1;i<max;i++)
 			{
 				(players.get(i)).x=oldpos.get(i-1).x;
                           (players.get(i)).y=oldpos.get(i-1).y;
-			}
-				 
+			Rectangle playRect=new Rectangle(players.get(i).x,players.get(i).y,players.get(i).w,players.get(i).h);
+			
+			if(headRect.intersects(playRect))
+					flag=0;
+			}	 
+			
 			if(i==max)
                                                 i=0;
 			score+=5*max;
 			repaint();
 		});
+		
 		timer.start();
 	}
 	protected void paintComponent(Graphics g)
@@ -94,5 +102,6 @@ public class GamePanel extends JPanel{
 		g.setColor(Color.BLUE);
 		g.setFont(new Font("Arial",Font.BOLD,20));
 		g.drawString("Score: "+score,20,30);
+	
 	}
 }
