@@ -2,10 +2,13 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.util.*;
 import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.Rectangle;
 public class GamePanel extends JPanel{
 	ArrayList<Player> players;
 	InputHandler input;
 	ArrayList<OldPosition> oldpos;
+	Apple apple;
 	int max=3;
 	int i=0;
 	String prev;
@@ -15,6 +18,7 @@ public class GamePanel extends JPanel{
 		players.add(new Player(200,100,50,50));
 		players.add(new Player(150,100,50,50));
 		players.add(new Player(100,100,50,50));
+		apple=new Apple(350,350,35,35);
 		oldpos=new ArrayList<>();
 		oldpos.add(new OldPosition(players.get(0).x,players.get(0).y));
 		oldpos.add(new OldPosition(players.get(1).x,players.get(1).y));
@@ -28,42 +32,26 @@ public class GamePanel extends JPanel{
 			oldpos.get(j).x=players.get(j).x;
 			oldpos.get(j).y=players.get(j).y;
 			}
+			Rectangle appleRect=new Rectangle(apple.x,apple.y,apple.w,apple.h);
 			if(input.right)
-			{	if(prev!="right")
-				{ 
-					i=0;
-				}
-					(players.get(0)).x+=50;
-					
-				
-				prev="right";	
+			{
+					(players.get(0)).x+=50;	
 			}
 
 			if(input.left)
-			{if(prev!="left")i=0;
-                               
+			{
                                         (players.get(0)).x-=50;
-					prev="left";
-			
 			}
 			if(input.up)
-                                 {if(prev!="up")i=0;
-                             
+                                 {
                                         (players.get(0)).y-=50;
-                                      
-					prev="up";
                         }
                         if(input.down)
                                  {
-				if(prev!="down")
-					
-                                { i=0;
-				}
-					(players.get(0)).y+=50;
-                                   
-					 prev="down";
-                                      
+					(players.get(0)).y+=50;    
                         }
+			Rectangle playRect=new Rectangle(players.get(0).x,players.get(0).y,players.get(0).w,players.get(0).h);
+			
 			for(i=1;i<max;i++)
 			{
 				(players.get(i)).x=oldpos.get(i-1).x;
@@ -84,5 +72,7 @@ public class GamePanel extends JPanel{
 		{
 		g.fillRect(player.x,player.y,player.w,player.h);
 		}
+		g.setColor(Color.RED);
+		g.fillOval(apple.x,apple.y,apple.w,apple.h);
 	}
 }
