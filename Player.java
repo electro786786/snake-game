@@ -7,4 +7,6 @@ public class Player{
 		this.w=w;
 		this.h=h;
 	}
+
+
 }
