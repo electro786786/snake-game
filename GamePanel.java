@@ -4,13 +4,14 @@ import java.util.*;
 import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.Font;
 public class GamePanel extends JPanel{
 	ArrayList<Player> players;
 	InputHandler input;
 	ArrayList<OldPosition> oldpos;
 	Apple apple;
 	int max=3;
-	int i=0;
+	int i=0;int score=0;
 	String prev;
 	GamePanel()
 	{
@@ -26,7 +27,8 @@ public class GamePanel extends JPanel{
 		input=new InputHandler();
 		addKeyListener(input);
 		setFocusable(true);
-		Timer timer=new Timer(128,e->{
+		Timer timer=new Timer(256,e->{
+			
 			for(int j=0;j<max;j++)
 			{
 			oldpos.get(j).x=players.get(j).x;
@@ -59,6 +61,14 @@ public class GamePanel extends JPanel{
 			   oldpos.add(new OldPosition(players.get(max).x,players.get(max).y));
 					   max++;
 			}
+			if(players.get(0).x>getWidth())
+				players.get(0).x=0;
+			if(players.get(0).x<0)
+                                players.get(0).x=getWidth()-50;
+			if(players.get(0).y>getHeight())
+                                players.get(0).y=0;
+			if(players.get(0).y<0)
+                                players.get(0).y=getHeight()-50;
 			for(i=1;i<max;i++)
 			{
 				(players.get(i)).x=oldpos.get(i-1).x;
@@ -67,7 +77,7 @@ public class GamePanel extends JPanel{
 				 
 			if(i==max)
                                                 i=0;
-			
+			score+=5*max;
 			repaint();
 		});
 		timer.start();
@@ -81,5 +91,8 @@ public class GamePanel extends JPanel{
 		}
 		g.setColor(Color.RED);
 		g.fillOval(apple.x,apple.y,apple.w,apple.h);
+		g.setColor(Color.BLUE);
+		g.setFont(new Font("Arial",Font.BOLD,20));
+		g.drawString("Score: "+score,20,30);
 	}
 }
